@@ -8,13 +8,32 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-
+class ViewController: UIViewController, SecondToFirstDelegate {
+    
+    
+    @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var textField: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
-
-
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToSecond" {
+            let destinationVC = segue.destination as! SecondViewController
+            destinationVC.name = textField.text
+            destinationVC.delegate = self
+        }
+    }
+    
+    @IBAction func goToSecond(_ sender: UIButton) {
+        performSegue(withIdentifier: "goToSecond", sender: self)
+        textField.text = ""
+    }
+    
+    func useThisData(data: String) {
+        label.text = data
+    }
 }
 
